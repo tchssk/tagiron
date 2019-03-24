@@ -8,3 +8,12 @@ type Player struct {
 }
 
 type Players []Player
+
+func NewPlayer(name, id string) Player {
+	return Player{
+		Name:      name,
+		ID:        id,
+		Tiles:     Tiles{},
+		Questions: Questions{},
+	}
+}
