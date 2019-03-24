@@ -1,5 +1,9 @@
 package main
 
+import (
+	"math/rand"
+)
+
 type Questions []string
 
 const (
@@ -25,3 +29,12 @@ const (
 	QuestionSixOrSeven       = "６または７はどこ？（どちらかひとつ選ぶ）"
 	QuestionEightOrNine      = "８または９はどこ？（どちらかひとつ選ぶ）"
 )
+
+func (q *Questions) Shuffle() {
+	qq := *q
+	for i := range qq {
+		j := rand.Intn(i + 1)
+		qq[i], qq[j] = qq[j], qq[i]
+	}
+	q = &qq
+}
