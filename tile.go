@@ -24,3 +24,19 @@ func (t *Tiles) Shuffle() {
 	}
 	t = &tt
 }
+
+func NewTiles() Tiles {
+	var tiles Tiles
+	for number := 0; number < 10; number++ {
+		for _, color := range []Color{Red, Blue} {
+			if number == 5 {
+				color = Yellow
+			}
+			tiles = append(tiles, Tile{
+				Number: number,
+				Color:  color,
+			})
+		}
+	}
+	return tiles
+}
