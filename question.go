@@ -39,6 +39,25 @@ func (q *Questions) Shuffle() {
 	q = &qq
 }
 
+func (q *Questions) Pull(n int) Questions {
+	qq := *q
+	if len(qq) == 0 {
+		return Questions{}
+	}
+	if n < 1 {
+		n = 1
+	}
+	if n > len(qq) {
+		n = len(qq)
+	}
+	questions := qq[:n]
+	qq = qq[n:]
+	new := make(Questions, len(qq))
+	copy(new, qq)
+	*q = new
+	return questions
+}
+
 func NewQuestions() Questions {
 	return Questions{
 		QuestionSumOfAll,
