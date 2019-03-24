@@ -178,3 +178,151 @@ func TestQuestionsPull(t *testing.T) {
 		})
 	}
 }
+
+func TestQuestionsPush(t *testing.T) {
+	cases := []struct {
+		name      string
+		questions Questions
+		expected  Questions
+	}{
+		{
+			name:      "push no question",
+			questions: Questions{},
+			expected:  Questions{},
+		},
+		{
+			name: "push 1 questions",
+			questions: Questions{
+				QuestionSumOfAll,
+			},
+			expected: Questions{
+				QuestionSumOfAll,
+			},
+		},
+		{
+			name: "push 2 questions",
+			questions: Questions{
+				QuestionSumOfLowerThree,
+				QuestionSumOfCenterThree,
+			},
+			expected: Questions{
+				QuestionSumOfAll,
+				QuestionSumOfLowerThree,
+				QuestionSumOfCenterThree,
+			},
+		},
+		{
+			name: "push 3 questions",
+			questions: Questions{
+				QuestionSumOfUpperThree,
+				QuestionSumOfRed,
+				QuestionSumOfBlue,
+			},
+			expected: Questions{
+				QuestionSumOfAll,
+				QuestionSumOfLowerThree,
+				QuestionSumOfCenterThree,
+				QuestionSumOfUpperThree,
+				QuestionSumOfRed,
+				QuestionSumOfBlue,
+			},
+		},
+		{
+			name: "push 4 questions",
+			questions: Questions{
+				QuestionDifference,
+				QuestionOdd,
+				QuestionEven,
+				QuestionNumberPairs,
+			},
+			expected: Questions{
+				QuestionSumOfAll,
+				QuestionSumOfLowerThree,
+				QuestionSumOfCenterThree,
+				QuestionSumOfUpperThree,
+				QuestionSumOfRed,
+				QuestionSumOfBlue,
+				QuestionDifference,
+				QuestionOdd,
+				QuestionEven,
+				QuestionNumberPairs,
+			},
+		},
+		{
+			name: "push 5 questions",
+			questions: Questions{
+				QuestionColorPairs,
+				QuestionCenter,
+				QuestionSerial,
+				QuestionRedTiles,
+				QuestionBlueTiles,
+			},
+			expected: Questions{
+				QuestionSumOfAll,
+				QuestionSumOfLowerThree,
+				QuestionSumOfCenterThree,
+				QuestionSumOfUpperThree,
+				QuestionSumOfRed,
+				QuestionSumOfBlue,
+				QuestionDifference,
+				QuestionOdd,
+				QuestionEven,
+				QuestionNumberPairs,
+				QuestionColorPairs,
+				QuestionCenter,
+				QuestionSerial,
+				QuestionRedTiles,
+				QuestionBlueTiles,
+			},
+		},
+		{
+			name: "push 6 questions",
+			questions: Questions{
+				QuestionZero,
+				QuestionOneOrTwo,
+				QuestionThreeOrFour,
+				QuestionFive,
+				QuestionSixOrSeven,
+				QuestionEightOrNine,
+			},
+			expected: Questions{
+				QuestionSumOfAll,
+				QuestionSumOfLowerThree,
+				QuestionSumOfCenterThree,
+				QuestionSumOfUpperThree,
+				QuestionSumOfRed,
+				QuestionSumOfBlue,
+				QuestionDifference,
+				QuestionOdd,
+				QuestionEven,
+				QuestionNumberPairs,
+				QuestionColorPairs,
+				QuestionCenter,
+				QuestionSerial,
+				QuestionRedTiles,
+				QuestionBlueTiles,
+				QuestionZero,
+				QuestionOneOrTwo,
+				QuestionThreeOrFour,
+				QuestionFive,
+				QuestionSixOrSeven,
+				QuestionEightOrNine,
+			},
+		},
+	}
+	questions := Questions{}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			questions.Push(tc.questions)
+			if actual := questions; len(actual) != len(tc.expected) {
+				t.Errorf("expected the number of all required values to match %d got %d ", len(tc.expected), len(actual))
+			} else {
+				for i, v := range actual {
+					if v != tc.expected[i] {
+						t.Errorf("got %#v, expected %#v at index %d", v, tc.expected[i], i)
+					}
+				}
+			}
+		})
+	}
+}

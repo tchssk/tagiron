@@ -58,6 +58,14 @@ func (q *Questions) Pull(n int) Questions {
 	return questions
 }
 
+func (q *Questions) Push(questions Questions) {
+	qq := *q
+	qq = append(qq, questions...)
+	n := make(Questions, len(qq))
+	copy(n, qq)
+	*q = n
+}
+
 func NewQuestions() Questions {
 	return Questions{
 		QuestionSumOfAll,
