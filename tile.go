@@ -56,6 +56,14 @@ func (t *Tiles) Pull(n int) Tiles {
 	return tiles
 }
 
+func (t *Tiles) Push(tiles Tiles) {
+	tt := *t
+	tt = append(tt, tiles...)
+	n := make(Tiles, len(tt))
+	copy(n, tt)
+	*t = n
+}
+
 func NewTiles() Tiles {
 	var tiles Tiles
 	for number := 0; number < 10; number++ {
