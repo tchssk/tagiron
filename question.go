@@ -38,3 +38,29 @@ func (q *Questions) Shuffle() {
 	}
 	q = &qq
 }
+
+func NewQuestions() Questions {
+	return Questions{
+		QuestionSumOfAll,
+		QuestionSumOfLowerThree,
+		QuestionSumOfCenterThree,
+		QuestionSumOfUpperThree,
+		QuestionSumOfRed,
+		QuestionSumOfBlue,
+		QuestionDifference,
+		QuestionOdd,
+		QuestionEven,
+		QuestionNumberPairs,
+		QuestionColorPairs,
+		QuestionCenter,
+		QuestionSerial,
+		QuestionRedTiles,
+		QuestionBlueTiles,
+		QuestionZero,
+		QuestionOneOrTwo,
+		QuestionThreeOrFour,
+		QuestionFive,
+		QuestionSixOrSeven,
+		QuestionEightOrNine,
+	}
+}
