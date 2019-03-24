@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"sort"
 )
 
 type Tile struct {
@@ -22,6 +23,17 @@ func (t *Tiles) Shuffle() {
 		j := rand.Intn(i + 1)
 		tt[i], tt[j] = tt[j], tt[i]
 	}
+	t = &tt
+}
+
+func (t *Tiles) Sort() {
+	tt := *t
+	sort.Slice(tt, func(i, j int) bool {
+		if tt[i].Number == tt[j].Number {
+			return tt[i].Color < tt[j].Color
+		}
+		return tt[i].Number < tt[j].Number
+	})
 	t = &tt
 }
 
