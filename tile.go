@@ -37,6 +37,25 @@ func (t *Tiles) Sort() {
 	t = &tt
 }
 
+func (t *Tiles) Pull(n int) Tiles {
+	tt := *t
+	if len(tt) == 0 {
+		return Tiles{}
+	}
+	if n < 1 {
+		n = 1
+	}
+	if n > len(tt) {
+		n = len(tt)
+	}
+	tiles := tt[:n]
+	tt = tt[n:]
+	new := make(Tiles, len(tt))
+	copy(new, tt)
+	*t = new
+	return tiles
+}
+
 func NewTiles() Tiles {
 	var tiles Tiles
 	for number := 0; number < 10; number++ {
