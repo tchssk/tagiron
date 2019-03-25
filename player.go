@@ -9,6 +9,14 @@ type Player struct {
 
 type Players []Player
 
+func (p *Players) Add(player Player) {
+	pp := *p
+	pp = append(pp, player)
+	n := make(Players, len(pp))
+	copy(n, pp)
+	*p = n
+}
+
 func NewPlayer(name, id string) Player {
 	return Player{
 		Name:      name,
