@@ -250,7 +250,7 @@ func TestTilesPush(t *testing.T) {
 			expected: Tiles{},
 		},
 		{
-			name: "push 1 tiles",
+			name: "push 1 tile",
 			tiles: Tiles{
 				{Red, 0},
 			},

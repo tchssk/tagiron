@@ -191,7 +191,7 @@ func TestQuestionsPush(t *testing.T) {
 			expected:  Questions{},
 		},
 		{
-			name: "push 1 questions",
+			name: "push 1 question",
 			questions: Questions{
 				QuestionSumOfAll,
 			},
