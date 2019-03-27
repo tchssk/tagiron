@@ -14,10 +14,11 @@ func NewGame() Game {
 	)
 	tiles.Shuffle()
 	stock.Shuffle()
+	questions := stock.Pull(0, 6)
 	return Game{
 		Tiles:     tiles,
 		Stock:     stock,
-		Questions: Questions{},
+		Questions: questions,
 		Players:   Players{},
 	}
 }
