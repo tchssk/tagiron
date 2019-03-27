@@ -39,21 +39,32 @@ func (q *Questions) Shuffle() {
 	q = &qq
 }
 
-func (q *Questions) Pull(n int) Questions {
+func (q *Questions) Pull(i, j int) Questions {
 	qq := *q
 	if len(qq) == 0 {
 		return Questions{}
 	}
-	if n < 1 {
-		n = 1
+	if i < 0 {
+		i = 0
 	}
-	if n > len(qq) {
-		n = len(qq)
+	if j < 1 {
+		j = 1
 	}
-	questions := qq[:n]
-	qq = qq[n:]
-	new := make(Questions, len(qq))
-	copy(new, qq)
+	if max := len(qq) - 1; i > max {
+		i = max
+	}
+	if max := len(qq); j > max {
+		j = max
+	}
+	if i > j {
+		i = j - 1
+	}
+	questions := qq[i:j]
+	var qqq Questions
+	qqq = append(qqq, qq[:i]...)
+	qqq = append(qqq, qq[j:]...)
+	new := make(Questions, len(qqq))
+	copy(new, qqq)
 	*q = new
 	return questions
 }
