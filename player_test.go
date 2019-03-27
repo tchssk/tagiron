@@ -46,3 +46,40 @@ func TestPlayersAdd(t *testing.T) {
 		})
 	}
 }
+
+func TestPlayersFindByID(t *testing.T) {
+	var (
+		playerFoo = NewPlayer("foo", "FOO")
+		playerBar = NewPlayer("bar", "BAR")
+		playerBaz = NewPlayer("baz", "BAR")
+	)
+	cases := []struct {
+		name     string
+		id       string
+		expected Player
+	}{
+		{
+			name:     "found",
+			id:       "FOO",
+			expected: playerFoo,
+		},
+		{
+			name:     "not found",
+			id:       "QUX",
+			expected: Player{},
+		},
+	}
+	players := Players{
+		playerFoo,
+		playerBar,
+		playerBaz,
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			player := players.FindByID(tc.id)
+			if actual := player; actual.Name != tc.expected.Name || actual.ID != tc.expected.ID {
+				t.Errorf("got %#v, expected %#v", actual, tc.expected)
+			}
+		})
+	}
+}

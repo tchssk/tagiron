@@ -17,6 +17,16 @@ func (p *Players) Add(player Player) {
 	*p = n
 }
 
+func (p *Players) FindByID(id string) Player {
+	pp := *p
+	for _, player := range pp {
+		if player.ID == id {
+			return player
+		}
+	}
+	return Player{}
+}
+
 func NewPlayer(name, id string) Player {
 	return Player{
 		Name:      name,
