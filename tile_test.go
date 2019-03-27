@@ -70,13 +70,15 @@ func TestTilesSort(t *testing.T) {
 func TestTilesPull(t *testing.T) {
 	cases := []struct {
 		name     string
-		n        int
+		i        int
+		j        int
 		expected Tiles
 		pulled   Tiles
 	}{
 		{
-			name: "pull 1 tile",
-			n:    1,
+			name: "pull 1 tile from the head",
+			i:    0,
+			j:    1,
 			expected: Tiles{
 				{Red, 0},
 			},
@@ -103,13 +105,16 @@ func TestTilesPull(t *testing.T) {
 			},
 		},
 		{
-			name: "pull 2 tiles",
-			n:    2,
+			name: "pull 2 tiles from the tail",
+			i:    17,
+			j:    19,
 			expected: Tiles{
+				{Red, 9},
+				{Blue, 9},
+			},
+			pulled: Tiles{
 				{Blue, 0},
 				{Red, 1},
-			},
-			pulled: Tiles{
 				{Blue, 1},
 				{Red, 2},
 				{Blue, 2},
@@ -125,19 +130,20 @@ func TestTilesPull(t *testing.T) {
 				{Blue, 7},
 				{Red, 8},
 				{Blue, 8},
-				{Red, 9},
-				{Blue, 9},
 			},
 		},
 		{
-			name: "pull 3 tiles",
-			n:    3,
+			name: "pull 3 tiles from 2nd from the head",
+			i:    1,
+			j:    4,
 			expected: Tiles{
+				{Red, 1},
 				{Blue, 1},
 				{Red, 2},
+			},
+			pulled: Tiles{
+				{Blue, 0},
 				{Blue, 2},
-			},
-			pulled: Tiles{
 				{Red, 3},
 				{Blue, 3},
 				{Red, 4},
@@ -150,65 +156,71 @@ func TestTilesPull(t *testing.T) {
 				{Blue, 7},
 				{Red, 8},
 				{Blue, 8},
-				{Red, 9},
-				{Blue, 9},
 			},
 		},
 		{
-			name: "pull 4 tiles",
-			n:    4,
+			name: "pull 4 tiles from 2nd from the tail",
+			i:    9,
+			j:    13,
 			expected: Tiles{
+				{Blue, 6},
+				{Red, 7},
+				{Blue, 7},
+				{Red, 8},
+			},
+			pulled: Tiles{
+				{Blue, 0},
+				{Blue, 2},
 				{Red, 3},
 				{Blue, 3},
 				{Red, 4},
 				{Blue, 4},
-			},
-			pulled: Tiles{
 				{Yellow, 5},
 				{Yellow, 5},
 				{Red, 6},
-				{Blue, 6},
-				{Red, 7},
-				{Blue, 7},
-				{Red, 8},
 				{Blue, 8},
-				{Red, 9},
-				{Blue, 9},
 			},
 		},
 		{
-			name: "pull 5 tiles",
-			n:    5,
+			name: "pull 1 tile from the middle",
+			i:    2,
+			j:    3,
 			expected: Tiles{
+				{Red, 3},
+			},
+			pulled: Tiles{
+				{Blue, 0},
+				{Blue, 2},
+				{Blue, 3},
+				{Red, 4},
+				{Blue, 4},
 				{Yellow, 5},
 				{Yellow, 5},
 				{Red, 6},
-				{Blue, 6},
-				{Red, 7},
-			},
-			pulled: Tiles{
-				{Blue, 7},
-				{Red, 8},
 				{Blue, 8},
-				{Red, 9},
-				{Blue, 9},
 			},
 		},
 		{
-			name: "pull 6 tiles",
-			n:    6,
-			expected: Tiles{ // remaining 5 tiles.
-				{Blue, 7},
-				{Red, 8},
+			name: "pull 10 tiles but remaining only 9 tiles",
+			i:    0,
+			j:    10,
+			expected: Tiles{
+				{Blue, 0},
+				{Blue, 2},
+				{Blue, 3},
+				{Red, 4},
+				{Blue, 4},
+				{Yellow, 5},
+				{Yellow, 5},
+				{Red, 6},
 				{Blue, 8},
-				{Red, 9},
-				{Blue, 9},
 			},
 			pulled: Tiles{},
 		},
 		{
 			name:     "pull but no tile",
-			n:        1,
+			i:        0,
+			j:        1,
 			expected: Tiles{},
 			pulled:   Tiles{},
 		},
@@ -216,7 +228,7 @@ func TestTilesPull(t *testing.T) {
 	tiles := NewTiles()
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			if actual := tiles.Pull(tc.n); len(actual) != len(tc.expected) {
+			if actual := tiles.Pull(tc.i, tc.j); len(actual) != len(tc.expected) {
 				t.Errorf("expected the number of all required values to match %d got %d ", len(tc.expected), len(actual))
 			} else {
 				for i, v := range actual {

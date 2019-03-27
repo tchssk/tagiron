@@ -37,21 +37,32 @@ func (t *Tiles) Sort() {
 	t = &tt
 }
 
-func (t *Tiles) Pull(n int) Tiles {
+func (t *Tiles) Pull(i, j int) Tiles {
 	tt := *t
 	if len(tt) == 0 {
 		return Tiles{}
 	}
-	if n < 1 {
-		n = 1
+	if i < 0 {
+		i = 0
 	}
-	if n > len(tt) {
-		n = len(tt)
+	if j < 1 {
+		j = 1
 	}
-	tiles := tt[:n]
-	tt = tt[n:]
-	new := make(Tiles, len(tt))
-	copy(new, tt)
+	if max := len(tt) - 1; i > max {
+		i = max
+	}
+	if max := len(tt); j > max {
+		j = max
+	}
+	if i > j {
+		i = j - 1
+	}
+	tiles := tt[i:j]
+	var ttt Tiles
+	ttt = append(ttt, tt[:i]...)
+	ttt = append(ttt, tt[j:]...)
+	new := make(Tiles, len(ttt))
+	copy(new, ttt)
 	*t = new
 	return tiles
 }
