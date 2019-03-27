@@ -2,22 +2,22 @@ package main
 
 import "testing"
 
-func TestQuestionsPull(t *testing.T) {
+func TestQuestionsRemove(t *testing.T) {
 	cases := []struct {
 		name     string
 		i        int
 		j        int
 		expected Questions
-		pulled   Questions
+		removeed Questions
 	}{
 		{
-			name: "pull 1 question from the head",
+			name: "remove 1 question from the head",
 			i:    0,
 			j:    1,
 			expected: Questions{
 				QuestionSumOfAll,
 			},
-			pulled: Questions{
+			removeed: Questions{
 				QuestionSumOfLowerThree,
 				QuestionSumOfCenterThree,
 				QuestionSumOfUpperThree,
@@ -41,14 +41,14 @@ func TestQuestionsPull(t *testing.T) {
 			},
 		},
 		{
-			name: "pull 2 questions from the tail",
+			name: "remove 2 questions from the tail",
 			i:    18,
 			j:    20,
 			expected: Questions{
 				QuestionSixOrSeven,
 				QuestionEightOrNine,
 			},
-			pulled: Questions{
+			removeed: Questions{
 				QuestionSumOfLowerThree,
 				QuestionSumOfCenterThree,
 				QuestionSumOfUpperThree,
@@ -70,7 +70,7 @@ func TestQuestionsPull(t *testing.T) {
 			},
 		},
 		{
-			name: "pull 3 questions from 2nd from the head",
+			name: "remove 3 questions from 2nd from the head",
 			i:    1,
 			j:    4,
 			expected: Questions{
@@ -78,7 +78,7 @@ func TestQuestionsPull(t *testing.T) {
 				QuestionSumOfUpperThree,
 				QuestionSumOfRed,
 			},
-			pulled: Questions{
+			removeed: Questions{
 				QuestionSumOfLowerThree,
 				QuestionSumOfBlue,
 				QuestionDifference,
@@ -97,7 +97,7 @@ func TestQuestionsPull(t *testing.T) {
 			},
 		},
 		{
-			name: "pull 4 questions from 2nd from the tail",
+			name: "remove 4 questions from 2nd from the tail",
 			i:    10,
 			j:    14,
 			expected: Questions{
@@ -106,7 +106,7 @@ func TestQuestionsPull(t *testing.T) {
 				QuestionOneOrTwo,
 				QuestionThreeOrFour,
 			},
-			pulled: Questions{
+			removeed: Questions{
 				QuestionSumOfLowerThree,
 				QuestionSumOfBlue,
 				QuestionDifference,
@@ -121,13 +121,13 @@ func TestQuestionsPull(t *testing.T) {
 			},
 		},
 		{
-			name: "pull 1 question from the middle",
+			name: "remove 1 question from the middle",
 			i:    2,
 			j:    3,
 			expected: Questions{
 				QuestionDifference,
 			},
-			pulled: Questions{
+			removeed: Questions{
 				QuestionSumOfLowerThree,
 				QuestionSumOfBlue,
 				QuestionOdd,
@@ -141,7 +141,7 @@ func TestQuestionsPull(t *testing.T) {
 			},
 		},
 		{
-			name: "pull 11 questions but remaining only 10 questions",
+			name: "remove 11 questions but remaining only 10 questions",
 			i:    0,
 			j:    11,
 			expected: Questions{
@@ -156,20 +156,20 @@ func TestQuestionsPull(t *testing.T) {
 				QuestionRedTiles,
 				QuestionFive,
 			},
-			pulled: Questions{},
+			removeed: Questions{},
 		},
 		{
-			name:     "pull but no question",
+			name:     "remove but no question",
 			i:        0,
 			j:        1,
 			expected: Questions{},
-			pulled:   Questions{},
+			removeed: Questions{},
 		},
 	}
 	questions := NewQuestions()
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			if actual := questions.Pull(tc.i, tc.j); len(actual) != len(tc.expected) {
+			if actual := questions.Remove(tc.i, tc.j); len(actual) != len(tc.expected) {
 				t.Errorf("expected the number of all required values to match %d got %d ", len(tc.expected), len(actual))
 			} else {
 				for i, v := range actual {
@@ -178,12 +178,12 @@ func TestQuestionsPull(t *testing.T) {
 					}
 				}
 			}
-			if len(questions) != len(tc.pulled) {
-				t.Errorf("expected the number of all required values to match %d got %d ", len(tc.pulled), len(questions))
+			if len(questions) != len(tc.removeed) {
+				t.Errorf("expected the number of all required values to match %d got %d ", len(tc.removeed), len(questions))
 			} else {
 				for i, v := range questions {
-					if v != tc.pulled[i] {
-						t.Errorf("got %#v, expected %#v at index %d", v, tc.pulled[i], i)
+					if v != tc.removeed[i] {
+						t.Errorf("got %#v, expected %#v at index %d", v, tc.removeed[i], i)
 					}
 				}
 			}
@@ -191,19 +191,19 @@ func TestQuestionsPull(t *testing.T) {
 	}
 }
 
-func TestQuestionsPush(t *testing.T) {
+func TestQuestionsAdd(t *testing.T) {
 	cases := []struct {
 		name      string
 		questions Questions
 		expected  Questions
 	}{
 		{
-			name:      "push no question",
+			name:      "add no question",
 			questions: Questions{},
 			expected:  Questions{},
 		},
 		{
-			name: "push 1 question",
+			name: "add 1 question",
 			questions: Questions{
 				QuestionSumOfAll,
 			},
@@ -212,7 +212,7 @@ func TestQuestionsPush(t *testing.T) {
 			},
 		},
 		{
-			name: "push 2 questions",
+			name: "add 2 questions",
 			questions: Questions{
 				QuestionSumOfLowerThree,
 				QuestionSumOfCenterThree,
@@ -224,7 +224,7 @@ func TestQuestionsPush(t *testing.T) {
 			},
 		},
 		{
-			name: "push 3 questions",
+			name: "add 3 questions",
 			questions: Questions{
 				QuestionSumOfUpperThree,
 				QuestionSumOfRed,
@@ -240,7 +240,7 @@ func TestQuestionsPush(t *testing.T) {
 			},
 		},
 		{
-			name: "push 4 questions",
+			name: "add 4 questions",
 			questions: Questions{
 				QuestionDifference,
 				QuestionOdd,
@@ -261,7 +261,7 @@ func TestQuestionsPush(t *testing.T) {
 			},
 		},
 		{
-			name: "push 5 questions",
+			name: "add 5 questions",
 			questions: Questions{
 				QuestionColorPairs,
 				QuestionCenter,
@@ -288,7 +288,7 @@ func TestQuestionsPush(t *testing.T) {
 			},
 		},
 		{
-			name: "push 6 questions",
+			name: "add 6 questions",
 			questions: Questions{
 				QuestionZero,
 				QuestionOneOrTwo,
@@ -325,7 +325,7 @@ func TestQuestionsPush(t *testing.T) {
 	questions := Questions{}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			questions.Push(tc.questions)
+			questions.Add(tc.questions)
 			if actual := questions; len(actual) != len(tc.expected) {
 				t.Errorf("expected the number of all required values to match %d got %d ", len(tc.expected), len(actual))
 			} else {

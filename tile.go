@@ -37,7 +37,7 @@ func (t *Tiles) Sort() {
 	t = &tt
 }
 
-func (t *Tiles) Pull(i, j int) Tiles {
+func (t *Tiles) Remove(i, j int) Tiles {
 	tt := *t
 	if len(tt) == 0 {
 		return Tiles{}
@@ -67,7 +67,7 @@ func (t *Tiles) Pull(i, j int) Tiles {
 	return tiles
 }
 
-func (t *Tiles) Push(tiles Tiles) {
+func (t *Tiles) Add(tiles Tiles) {
 	tt := *t
 	tt = append(tt, tiles...)
 	n := make(Tiles, len(tt))

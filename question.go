@@ -39,7 +39,7 @@ func (q *Questions) Shuffle() {
 	q = &qq
 }
 
-func (q *Questions) Pull(i, j int) Questions {
+func (q *Questions) Remove(i, j int) Questions {
 	qq := *q
 	if len(qq) == 0 {
 		return Questions{}
@@ -69,7 +69,7 @@ func (q *Questions) Pull(i, j int) Questions {
 	return questions
 }
 
-func (q *Questions) Push(questions Questions) {
+func (q *Questions) Add(questions Questions) {
 	qq := *q
 	qq = append(qq, questions...)
 	n := make(Questions, len(qq))
