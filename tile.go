@@ -84,6 +84,19 @@ func (t *Tiles) SumOfAll() int {
 	return sum
 }
 
+func (t *Tiles) SumOfLowerThree() int {
+	tt := *t
+	tt.Sort()
+	max := 3
+	if length := len(tt); length < max {
+		max = length
+	}
+	var sum int
+	for i := 0; i < max; i++ {
+		sum += tt[i].Number
+	}
+	return sum
+}
 func NewTiles() Tiles {
 	var tiles Tiles
 	for number := 0; number < 10; number++ {
