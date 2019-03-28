@@ -395,3 +395,30 @@ func TestTilesAdd(t *testing.T) {
 		})
 	}
 }
+
+func TestTilesSumOfAll(t *testing.T) {
+	cases := map[string]struct {
+		tiles    Tiles
+		expected int
+	}{
+		"all tiles": {
+			tiles:    NewTiles(),
+			expected: 90,
+		},
+		"one color": {
+			tiles:    Tiles{{Red, 0}, {Red, 1}, {Red, 2}, {Red, 3}, {Red, 4}},
+			expected: 10,
+		},
+		"two colors": {
+			tiles:    Tiles{{Red, 0}, {Blue, 1}, {Red, 2}, {Blue, 3}, {Red, 4}},
+			expected: 10,
+		},
+	}
+	for k, tc := range cases {
+		t.Run(k, func(t *testing.T) {
+			if actual := tc.tiles.SumOfAll(); actual != tc.expected {
+				t.Errorf("got %#v, expected %#v", actual, tc.expected)
+			}
+		})
+	}
+}

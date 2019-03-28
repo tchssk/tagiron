@@ -75,6 +75,15 @@ func (t *Tiles) Add(tiles Tiles) {
 	*t = n
 }
 
+func (t *Tiles) SumOfAll() int {
+	tt := *t
+	var sum int
+	for _, tile := range tt {
+		sum += tile.Number
+	}
+	return sum
+}
+
 func NewTiles() Tiles {
 	var tiles Tiles
 	for number := 0; number < 10; number++ {
