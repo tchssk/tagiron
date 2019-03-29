@@ -97,6 +97,20 @@ func (t *Tiles) SumOfLowerThree() int {
 	}
 	return sum
 }
+
+func (t *Tiles) SumOfUpperThree() int {
+	tt := *t
+	tt.Sort()
+	min := 3
+	if length := len(tt); length < min {
+		min = length
+	}
+	var sum int
+	for i := 0; i < min; i++ {
+		sum += tt[len(tt)-1-i].Number
+	}
+	return sum
+}
 func NewTiles() Tiles {
 	var tiles Tiles
 	for number := 0; number < 10; number++ {
