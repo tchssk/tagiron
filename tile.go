@@ -111,6 +111,18 @@ func (t *Tiles) SumOfUpperThree() int {
 	}
 	return sum
 }
+
+func (t *Tiles) SumOfRed() int {
+	tt := *t
+	var sum int
+	for _, tile := range tt {
+		if tile.Color == Red {
+			sum += tile.Number
+		}
+	}
+	return sum
+}
+
 func NewTiles() Tiles {
 	var tiles Tiles
 	for number := 0; number < 10; number++ {
