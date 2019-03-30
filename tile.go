@@ -123,6 +123,17 @@ func (t *Tiles) SumOfRed() int {
 	return sum
 }
 
+func (t *Tiles) SumOfBlue() int {
+	tt := *t
+	var sum int
+	for _, tile := range tt {
+		if tile.Color == Blue {
+			sum += tile.Number
+		}
+	}
+	return sum
+}
+
 func NewTiles() Tiles {
 	var tiles Tiles
 	for number := 0; number < 10; number++ {
