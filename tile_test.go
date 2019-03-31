@@ -576,3 +576,26 @@ func TestTilesOdd(t *testing.T) {
 		})
 	}
 }
+
+func TestTilesEven(t *testing.T) {
+	cases := map[string]struct {
+		tiles    Tiles
+		expected int
+	}{
+		"one color": {
+			tiles:    Tiles{{Red, 0}, {Red, 1}, {Red, 2}, {Red, 3}, {Red, 4}},
+			expected: 3,
+		},
+		"two colors": {
+			tiles:    Tiles{{Red, 0}, {Red, 1}, {Red, 2}, {Blue, 3}, {Blue, 4}},
+			expected: 3,
+		},
+	}
+	for k, tc := range cases {
+		t.Run(k, func(t *testing.T) {
+			if actual := tc.tiles.Even(); actual != tc.expected {
+				t.Errorf("got %#v, expected %#v", actual, tc.expected)
+			}
+		})
+	}
+}

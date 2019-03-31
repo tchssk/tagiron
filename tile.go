@@ -155,6 +155,17 @@ func (t *Tiles) Odd() int {
 	return n
 }
 
+func (t *Tiles) Even() int {
+	tt := *t
+	var n int
+	for _, tile := range tt {
+		if tile.Number%2 == 0 {
+			n++
+		}
+	}
+	return n
+}
+
 func NewTiles() Tiles {
 	var tiles Tiles
 	for number := 0; number < 10; number++ {
