@@ -134,6 +134,16 @@ func (t *Tiles) SumOfBlue() int {
 	return sum
 }
 
+func (t *Tiles) Difference() int {
+	tt := *t
+	tt.Sort()
+	length := len(tt)
+	if length < 1 {
+		return 0
+	}
+	return tt[length-1].Number - tt[0].Number
+}
+
 func NewTiles() Tiles {
 	var tiles Tiles
 	for number := 0; number < 10; number++ {
