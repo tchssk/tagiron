@@ -166,6 +166,18 @@ func (t *Tiles) Even() int {
 	return n
 }
 
+func (t *Tiles) NumberPairs() int {
+	tt := *t
+	var n int
+	for i := 0; i < len(tt)-1; i++ {
+		j := i + 1
+		if tt[i].Number == tt[j].Number {
+			n++
+		}
+	}
+	return n
+}
+
 func (t *Tiles) RedTiles() int {
 	tt := *t
 	var n int
