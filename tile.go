@@ -177,6 +177,17 @@ func (t *Tiles) RedTiles() int {
 	return n
 }
 
+func (t *Tiles) BlueTiles() int {
+	tt := *t
+	var n int
+	for _, tile := range tt {
+		if tile.Color == Blue {
+			n++
+		}
+	}
+	return n
+}
+
 func NewTiles() Tiles {
 	var tiles Tiles
 	for number := 0; number < 10; number++ {
