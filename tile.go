@@ -98,6 +98,24 @@ func (t *Tiles) SumOfLowerThree() int {
 	return sum
 }
 
+func (t *Tiles) SumOfCenterThree() int {
+	tt := *t
+	tt.Sort()
+	min := len(tt)/2 - 1
+	if min < 0 {
+		min = 0
+	}
+	max := min + 3
+	if length := len(tt); length < max {
+		max = length
+	}
+	var sum int
+	for i := min; i < max; i++ {
+		sum += tt[i].Number
+	}
+	return sum
+}
+
 func (t *Tiles) SumOfUpperThree() int {
 	tt := *t
 	tt.Sort()

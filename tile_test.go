@@ -450,6 +450,33 @@ func TestTilesSumOfLowerThree(t *testing.T) {
 	}
 }
 
+func TestTilesSumOfCenterThree(t *testing.T) {
+	cases := map[string]struct {
+		tiles    Tiles
+		expected int
+	}{
+		"all tiles": {
+			tiles:    NewTiles(),
+			expected: 14,
+		},
+		"one color": {
+			tiles:    Tiles{{Red, 0}, {Red, 1}, {Red, 2}, {Red, 3}, {Red, 4}},
+			expected: 6,
+		},
+		"two colors": {
+			tiles:    Tiles{{Red, 0}, {Blue, 1}, {Red, 2}, {Blue, 3}, {Red, 4}},
+			expected: 6,
+		},
+	}
+	for k, tc := range cases {
+		t.Run(k, func(t *testing.T) {
+			if actual := tc.tiles.SumOfCenterThree(); actual != tc.expected {
+				t.Errorf("got %#v, expected %#v", actual, tc.expected)
+			}
+		})
+	}
+}
+
 func TestTilesSumOfUpperThree(t *testing.T) {
 	cases := map[string]struct {
 		tiles    Tiles
