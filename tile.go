@@ -178,6 +178,29 @@ func (t *Tiles) NumberPairs() int {
 	return n
 }
 
+func (t *Tiles) ColorPairs() [][]int {
+	tt := *t
+	var pairs [][]int
+	var pair []int
+	for i := 0; i < len(tt)-1; i++ {
+		j := i + 1
+		if tt[i].Color == tt[j].Color {
+			if pair == nil {
+				pair = append(pair, i)
+			}
+			pair = append(pair, j)
+			if j != len(tt)-1 {
+				continue
+			}
+		}
+		if len(pair) != 0 {
+			pairs = append(pairs, pair)
+			pair = nil
+		}
+	}
+	return pairs
+}
+
 func (t *Tiles) RedTiles() int {
 	tt := *t
 	var n int
