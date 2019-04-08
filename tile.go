@@ -219,6 +219,14 @@ func (t *Tiles) ColorPairs() [][]int {
 	return pairs
 }
 
+func (t *Tiles) Center() int {
+	tt := *t
+	if len(tt) == 0 {
+		return 0
+	}
+	return tt[len(tt)/2].Number
+}
+
 func (t *Tiles) RedTiles() int {
 	tt := *t
 	var n int

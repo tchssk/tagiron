@@ -685,6 +685,29 @@ func TestTilesColorPairs(t *testing.T) {
 	}
 }
 
+func TestTilesCenter(t *testing.T) {
+	cases := map[string]struct {
+		tiles    Tiles
+		expected int
+	}{
+		"red": {
+			tiles:    Tiles{{Red, 0}, {Red, 1}, {Red, 2}, {Red, 3}, {Red, 4}},
+			expected: 2,
+		},
+		"blue": {
+			tiles:    Tiles{{Blue, 0}, {Blue, 1}, {Blue, 2}, {Blue, 3}, {Blue, 4}},
+			expected: 2,
+		},
+	}
+	for k, tc := range cases {
+		t.Run(k, func(t *testing.T) {
+			if actual := tc.tiles.Center(); actual != tc.expected {
+				t.Errorf("got %#v, expected %#v", actual, tc.expected)
+			}
+		})
+	}
+}
+
 func TestTilesRedTiles(t *testing.T) {
 	cases := map[string]struct {
 		tiles    Tiles
