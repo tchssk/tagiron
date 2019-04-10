@@ -708,6 +708,33 @@ func TestTilesCenter(t *testing.T) {
 	}
 }
 
+func TestTilesSerial(t *testing.T) {
+	cases := map[string]struct {
+		tiles    Tiles
+		expected []int
+	}{
+		"none": {
+			tiles:    Tiles{{Red, 0}, {Red, 0}, {Red, 2}, {Red, 2}, {Red, 4}},
+			expected: nil,
+		},
+		"single match": {
+			tiles:    Tiles{{Blue, 0}, {Blue, 1}, {Blue, 3}, {Blue, 5}, {Blue, 7}},
+			expected: []int{0, 1},
+		},
+		"multiple matches": {
+			tiles:    Tiles{{Red, 0}, {Blue, 1}, {Red, 3}, {Blue, 5}, {Red, 6}},
+			expected: []int{0, 1, 3, 4},
+		},
+	}
+	for k, tc := range cases {
+		t.Run(k, func(t *testing.T) {
+			if actual := tc.tiles.Serial(); !reflect.DeepEqual(actual, tc.expected) {
+				t.Errorf("got %#v, expected %#v", actual, tc.expected)
+			}
+		})
+	}
+}
+
 func TestTilesRedTiles(t *testing.T) {
 	cases := map[string]struct {
 		tiles    Tiles

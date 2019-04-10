@@ -227,6 +227,24 @@ func (t *Tiles) Center() int {
 	return tt[len(tt)/2].Number
 }
 
+func (t *Tiles) Serial() []int {
+	tt := *t
+	var indexes []int
+	var ongoing bool
+	for i := 0; i < len(tt)-1; i++ {
+		j := i + 1
+		if tt[i].Number+1 == tt[j].Number {
+			if ongoing != true {
+				indexes = append(indexes, i)
+			}
+			indexes = append(indexes, j)
+			continue
+		}
+		ongoing = false
+	}
+	return indexes
+}
+
 func (t *Tiles) RedTiles() int {
 	tt := *t
 	var n int
