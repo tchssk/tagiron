@@ -267,6 +267,18 @@ func (t *Tiles) BlueTiles() int {
 	return n
 }
 
+func (t *Tiles) NumberWhere(n int) []int {
+	tt := *t
+	tt.Sort()
+	var indexes []int
+	for i, tile := range tt {
+		if tile.Number == n {
+			indexes = append(indexes, i)
+		}
+	}
+	return indexes
+}
+
 func NewTiles() Tiles {
 	var tiles Tiles
 	for number := 0; number < 10; number++ {
