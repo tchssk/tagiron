@@ -102,3 +102,21 @@ func NewQuestions() Questions {
 		QuestionEightOrNine,
 	}
 }
+
+func Where(indexes []int) string {
+	if len(indexes) == 0 {
+		return "なし"
+	}
+	m := map[int]string{
+		0: "一番左",
+		1: "左から２番目",
+		2: "真ん中",
+		3: "右から２番目",
+		4: "一番右",
+	}
+	var ss []string
+	for _, index := range indexes {
+		ss = append(ss, m[index])
+	}
+	return strings.Join(ss, "と")
+}

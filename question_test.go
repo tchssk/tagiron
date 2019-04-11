@@ -338,3 +338,66 @@ func TestQuestionsAdd(t *testing.T) {
 		})
 	}
 }
+
+func TestWhere(t *testing.T) {
+	cases := map[string]struct {
+		indexes  []int
+		expected string
+	}{
+		"none": {
+			indexes:  []int{},
+			expected: "なし",
+		},
+		"left end": {
+			indexes:  []int{0},
+			expected: "一番左",
+		},
+		"left end and the right": {
+			indexes:  []int{0, 1},
+			expected: "一番左と左から２番目",
+		},
+		"left end and center": {
+			indexes:  []int{0, 2},
+			expected: "一番左と真ん中",
+		},
+		"left end and right side of center": {
+			indexes:  []int{0, 3},
+			expected: "一番左と右から２番目",
+		},
+		"left end and right end": {
+			indexes:  []int{0, 4},
+			expected: "一番左と一番右",
+		},
+		"center and the left": {
+			indexes:  []int{1, 2},
+			expected: "左から２番目と真ん中",
+		},
+		"both sides of center": {
+			indexes:  []int{1, 3},
+			expected: "左から２番目と右から２番目",
+		},
+		"left side of center and right end": {
+			indexes:  []int{1, 4},
+			expected: "左から２番目と一番右",
+		},
+		"center and the right": {
+			indexes:  []int{2, 3},
+			expected: "真ん中と右から２番目",
+		},
+		"center and right end": {
+			indexes:  []int{2, 4},
+			expected: "真ん中と一番右",
+		},
+		"right end and the left": {
+			indexes:  []int{3, 4},
+			expected: "右から２番目と一番右",
+		},
+	}
+	for k, tc := range cases {
+		t.Run(k, func(t *testing.T) {
+			if actual := Where(tc.indexes); actual != tc.expected {
+				t.Errorf("got %#v, expected %#v", actual, tc.expected)
+			}
+		})
+	}
+}
