@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
+	"strings"
 )
 
 type Questions []string
@@ -100,6 +102,64 @@ func NewQuestions() Questions {
 		QuestionFive,
 		QuestionSixOrSeven,
 		QuestionEightOrNine,
+	}
+}
+
+func Resolve(question string, tiles Tiles, n int) string {
+	switch question {
+	case QuestionSumOfAll:
+		return fmt.Sprintf("%d", tiles.SumOfAll())
+	case QuestionSumOfLowerThree:
+		return fmt.Sprintf("%d", tiles.SumOfLowerThree())
+	case QuestionSumOfCenterThree:
+		return fmt.Sprintf("%d", tiles.SumOfCenterThree())
+	case QuestionSumOfUpperThree:
+		return fmt.Sprintf("%d", tiles.SumOfUpperThree())
+	case QuestionSumOfRed:
+		return fmt.Sprintf("%d", tiles.SumOfRed())
+	case QuestionSumOfBlue:
+		return fmt.Sprintf("%d", tiles.SumOfBlue())
+	case QuestionDifference:
+		return fmt.Sprintf("%d", tiles.Difference())
+	case QuestionOdd:
+		return fmt.Sprintf("%d", tiles.Odd())
+	case QuestionEven:
+		return fmt.Sprintf("%d", tiles.Even())
+	case QuestionNumberPairs:
+		return fmt.Sprintf("%d", tiles.NumberPairs())
+	case QuestionColorPairs:
+		var ss []string
+		for _, v := range tiles.ColorPairs() {
+			ss = append(ss, Where(v))
+		}
+		return strings.Join(ss, "、")
+	case QuestionCenter:
+		center := tiles.Center()
+		suffix := "以下"
+		if center > 4 {
+			suffix = "以上"
+		}
+		return fmt.Sprintf("%d %s", center, suffix)
+	case QuestionSerial:
+		return Where(tiles.Serial())
+	case QuestionRedTiles:
+		return fmt.Sprintf("%d", tiles.RedTiles())
+	case QuestionBlueTiles:
+		return fmt.Sprintf("%d", tiles.BlueTiles())
+	case QuestionZero:
+		return Where(tiles.NumberWhere(0))
+	case QuestionFive:
+		return Where(tiles.NumberWhere(5))
+	case QuestionOneOrTwo:
+		fallthrough
+	case QuestionThreeOrFour:
+		fallthrough
+	case QuestionSixOrSeven:
+		fallthrough
+	case QuestionEightOrNine:
+		return Where(tiles.NumberWhere(n))
+	default:
+		return ""
 	}
 }
 
