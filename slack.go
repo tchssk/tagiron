@@ -17,3 +17,13 @@ func PostMessage(c *slack.Client, channelID, message string) error {
 	)
 	return err
 }
+
+func PostEphemeral(c *slack.Client, channelID, userID, message string) error {
+	_, err := c.PostEphemeral(
+		channelID,
+		userID,
+		slack.MsgOptionText(message, false),
+		slack.MsgOptionPostMessageParameters(slack.NewPostMessageParameters()),
+	)
+	return err
+}
