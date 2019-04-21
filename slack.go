@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/nlopes/slack"
 )
 
@@ -26,4 +28,8 @@ func PostEphemeral(c *slack.Client, channelID, userID, message string) error {
 		slack.MsgOptionPostMessageParameters(slack.NewPostMessageParameters()),
 	)
 	return err
+}
+
+func unknown(command string) string {
+	return fmt.Sprintf("Unknown command \"%s\".", command)
 }
