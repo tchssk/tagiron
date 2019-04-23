@@ -40,6 +40,31 @@ func PostEphemeral(c *slack.Client, channelID, userID, message string) error {
 	return err
 }
 
+func dispatchHandler(s *SlackListener, ev *slack.MessageEvent, m []string) error {
+	switch m[0] {
+	case commandPing:
+		if err := PostMessage(s.client, ev.Channel, "pong"); err != nil {
+			return fmt.Errorf("failed to post message: %v", err)
+		}
+	case commandHelp:
+		if err := PostMessage(s.client, ev.Channel, help()); err != nil {
+			return fmt.Errorf("failed to post message: %v", err)
+		}
+	case commandNew:
+		return s.handleNew(ev, m)
+	case commandJoin:
+		return s.handleJoin(ev, m)
+	case commandQuestion:
+		return s.handleQuestion(ev, m)
+	default:
+		if err := PostMessage(s.client, ev.Channel, unknown(m[0])); err != nil {
+			return fmt.Errorf("failed to post message: %v", err)
+		}
+		return fmt.Errorf("invalid message: %v", ev.Msg.Text)
+	}
+	return nil
+}
+
 func unknown(command string) string {
 	return fmt.Sprintf("Unknown command \"%s\".", command)
 }
