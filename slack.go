@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"strings"
 	"text/tabwriter"
 
 	"github.com/nlopes/slack"
@@ -38,6 +39,23 @@ func PostEphemeral(c *slack.Client, channelID, userID, message string) error {
 		slack.MsgOptionPostMessageParameters(slack.NewPostMessageParameters()),
 	)
 	return err
+}
+
+// handleMesageEvent handles message events.
+func (s *SlackListener) handleMessageEvent(ev *slack.MessageEvent) error {
+	// Only response mention to bot. Ignore else.
+	if !strings.HasPrefix(ev.Msg.Text, fmt.Sprintf("<@%s> ", s.botID)) {
+		fmt.Printf("%#v\n", ev)
+		return nil
+	}
+
+	// Parse message
+	m := strings.Split(strings.TrimSpace(ev.Msg.Text), " ")[1:]
+	if len(m) == 0 {
+		return fmt.Errorf("invalid message")
+	}
+
+	return dispatchHandler(s, ev, m)
 }
 
 func dispatchHandler(s *SlackListener, ev *slack.MessageEvent, m []string) error {
