@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"log"
 	"strings"
 	"text/tabwriter"
 
@@ -39,6 +40,25 @@ func PostEphemeral(c *slack.Client, channelID, userID, message string) error {
 		slack.MsgOptionPostMessageParameters(slack.NewPostMessageParameters()),
 	)
 	return err
+}
+
+// LstenAndResponse listens slack events and response
+// particular messages. It replies by slack message button.
+func (s *SlackListener) ListenAndResponse() {
+	rtm := s.client.NewRTM()
+
+	// Start listening slack events
+	go rtm.ManageConnection()
+
+	// Handle slack events
+	for msg := range rtm.IncomingEvents {
+		switch ev := msg.Data.(type) {
+		case *slack.MessageEvent:
+			if err := s.handleMessageEvent(ev); err != nil {
+				log.Printf("[ERROR] Failed to handle message: %s", err)
+			}
+		}
+	}
 }
 
 // handleMesageEvent handles message events.
