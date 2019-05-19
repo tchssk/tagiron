@@ -43,13 +43,7 @@ func (s *SlackListener) handleJoin(ev *slack.MessageEvent, m []string) error {
 func (s *SlackListener) handleQuestion(ev *slack.MessageEvent, m []string) error {
 	switch len(m) {
 	case 1:
-		ss := []string{"質問:"}
-		for i, question := range game.Questions {
-			ss = append(ss, fmt.Sprintf("%d. %s", i+1, question))
-		}
-		if err := PostMessage(s.client, ev.Channel, strings.Join(ss, "\n")); err != nil {
-			return fmt.Errorf("failed to post message: %v", err)
-		}
+		return s.handleQuestionList(ev)
 	case 2:
 		index, err := strconv.Atoi(m[1])
 		if err != nil {
@@ -66,6 +60,17 @@ func (s *SlackListener) handleQuestion(ev *slack.MessageEvent, m []string) error
 		if err := PostMessage(s.client, ev.Channel, strings.Join(ss, "\n")); err != nil {
 			return fmt.Errorf("failed to post message: %v", err)
 		}
+	}
+	return nil
+}
+
+func (s *SlackListener) handleQuestionList(ev *slack.MessageEvent) error {
+	ss := []string{"質問:"}
+	for i, question := range game.Questions {
+		ss = append(ss, fmt.Sprintf("%d. %s", i+1, question))
+	}
+	if err := PostMessage(s.client, ev.Channel, strings.Join(ss, "\n")); err != nil {
+		return fmt.Errorf("failed to post message: %v", err)
 	}
 	return nil
 }
