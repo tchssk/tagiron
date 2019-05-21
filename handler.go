@@ -45,21 +45,7 @@ func (s *SlackListener) handleQuestion(ev *slack.MessageEvent, m []string) error
 	case 1:
 		return s.handleQuestionList(ev)
 	case 2:
-		index, err := strconv.Atoi(m[1])
-		if err != nil {
-			return err
-		}
-		player := game.Players.FindByID(ev.User)
-		questions := game.Questions.Remove(index-1, index)
-		player.Questions.Add(questions)
-		game.Questions.Add(game.Stock.Remove(0, 1))
-		ss := []string{fmt.Sprintf("%s さんが質問しました。", player.Name)}
-		for _, question := range questions {
-			ss = append(ss, question)
-		}
-		if err := PostMessage(s.client, ev.Channel, strings.Join(ss, "\n")); err != nil {
-			return fmt.Errorf("failed to post message: %v", err)
-		}
+		return s.handleQuestionAsk(ev, m)
 	}
 	return nil
 }
@@ -68,6 +54,25 @@ func (s *SlackListener) handleQuestionList(ev *slack.MessageEvent) error {
 	ss := []string{"質問:"}
 	for i, question := range game.Questions {
 		ss = append(ss, fmt.Sprintf("%d. %s", i+1, question))
+	}
+	if err := PostMessage(s.client, ev.Channel, strings.Join(ss, "\n")); err != nil {
+		return fmt.Errorf("failed to post message: %v", err)
+	}
+	return nil
+}
+
+func (s *SlackListener) handleQuestionAsk(ev *slack.MessageEvent, m []string) error {
+	index, err := strconv.Atoi(m[1])
+	if err != nil {
+		return err
+	}
+	player := game.Players.FindByID(ev.User)
+	questions := game.Questions.Remove(index-1, index)
+	player.Questions.Add(questions)
+	game.Questions.Add(game.Stock.Remove(0, 1))
+	ss := []string{fmt.Sprintf("%s さんが質問しました。", player.Name)}
+	for _, question := range questions {
+		ss = append(ss, question)
 	}
 	if err := PostMessage(s.client, ev.Channel, strings.Join(ss, "\n")); err != nil {
 		return fmt.Errorf("failed to post message: %v", err)
